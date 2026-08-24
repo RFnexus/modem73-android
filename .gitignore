@@ -1,0 +1,40 @@
+# Gradle / android
+.gradle/
+build/
+/local.properties
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+captures/
+mlb
+onair
+docs
+scripts/
+tools/
+# IDE
+.idea/
+*.iml
+.vscode/
+app/.cxx/
+obj/
+# misc
+*.log
+*.hprof
+.DS_Store
+.kotlin/
+app/release/
+*.orig
+*.rej
+*~
+*.wav
+keystore.properties
+*.jks
+*.keystore
+*.p12
+*.pem
+# machine-local pointer to the modem73 core checkout (see local.properties.example)
+/third_party/modem73
+__pycache__/
