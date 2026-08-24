@@ -164,7 +164,7 @@ fun ConfigScreen(state: ConfigUiState, vm: ModemViewModel, modifier: Modifier = 
     ) {
         Text(
             text = "Quit and Restart are at the bottom",
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
@@ -340,7 +340,6 @@ private fun ModemSection(state: ConfigUiState, vm: ModemViewModel, open: (Dialog
             if (info.netText != null) {
                 InfoStat("Net", info.netText, Modifier.weight(1.2f))
             }
-            InfoStat("Band", info.bandText, Modifier.weight(1.4f))
         }
     }
 }

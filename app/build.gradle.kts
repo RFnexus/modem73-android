@@ -32,7 +32,9 @@ android {
 
         ndk {
             // arm64 = every real phone incl. Pixel 7a; x86_64 = the emulator.
-            abiFilters += listOf("arm64-v8a", "x86_64")
+            // -Parm64only drops the emulator ABI for release builds
+            abiFilters += if (project.hasProperty("arm64only")) listOf("arm64-v8a")
+                          else listOf("arm64-v8a", "x86_64")
         }
         externalNativeBuild {
             cmake {

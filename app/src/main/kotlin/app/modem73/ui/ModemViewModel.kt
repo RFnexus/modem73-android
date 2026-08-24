@@ -67,9 +67,10 @@ class ModemViewModel : ViewModel() {
         mapConfig(cfg, st, devs.firstOrNull { it.key == cfg.comPort }?.label ?: cfg.comPort.ifEmpty { if (devs.isEmpty()) "(no USB serial device)" else devs.first().label }, adv)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), mapConfig(c.config.value, EngineStatus(), "", false))
 
+
     val utilsUi: StateFlow<UtilsUiState> = combine(c.snapshot, chatDraft, randomSize, c.status) { sn, draft, size, st ->
         val mtu = if (st.mtuBytes > 0) st.mtuBytes else 512
-        val sizes = listOf(64, 128, 256, 512, 1024).filter { it <= maxOf(mtu, 64) }.ifEmpty { listOf(64) }
+        val sizes = listOf(32, 128, 256, 512, 1024).filter { it <= maxOf(mtu, 32) }.ifEmpty { listOf(32) }
         val sel = if (size in sizes) size else sizes.last()
         UtilsUiState(
             chatLines = sn.messages.map { m ->
@@ -81,7 +82,7 @@ class ModemViewModel : ViewModel() {
             maxPayloadBytes = mtu,
             logLines = sn.log.takeLast(40)
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UtilsUiState(emptyList(), "", listOf(64, 128, 256, 512), 512, 512, emptyList()))
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UtilsUiState(emptyList(), "", listOf(32, 128, 256, 512), 512, 512, emptyList()))
 
     fun update(transform: (TncConfig) -> TncConfig) = c.updateConfig(transform)
 
