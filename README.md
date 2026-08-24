@@ -10,6 +10,10 @@ Turn any Android phone into a high performance OFDM software modem that works wi
 
 No flat audio mod or external hardware needed besides an OTG adapter and  cable for your radio. 
 
+<p align="center">
+  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/RFnexus/modem73-android"><img src="https://raw.githubusercontent.com/ImranR98/Obtainium/main/assets/graphics/badge_obtainium.png" alt="Get it on Obtainium" height="54"></a>
+</p>
+
 <img width="1920" height="1130" alt="573_1x_shots_so" src="https://github.com/user-attachments/assets/7ddc829d-8b5c-4d8d-b2e9-3343d62c1635" />
 <p align="center">
 <img width="507.5" height="361" alt="preview1" src="https://github.com/user-attachments/assets/962f7592-6469-414f-9c64-3532c5cfe46a" />
@@ -37,7 +41,7 @@ No flat audio mod or external hardware needed besides an OTG adapter and  cable 
 ## Getting started
 
 1. Install the app and open it
-2. Allow microphone access and background use when asked
+2. Allow microphone access when using the app, background process access, and notification access permissions otherwise the app will run only in the foreground. 
 3. Plug in your OTG adapter in, then your sound device or radio
 4. Pick your callsign, mode, and PTT type under CONFIG
 5. Restart and get on the air
