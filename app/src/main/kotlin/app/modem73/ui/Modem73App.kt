@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -25,6 +26,7 @@ import app.modem73.core.ModemController
 import app.modem73.ui.components.Modem73Header
 import app.modem73.ui.components.PillTabs
 import app.modem73.ui.config.ConfigScreen
+import app.modem73.ui.guide.GuideScreen
 import app.modem73.ui.model.Page
 import app.modem73.ui.rig.RigScreen
 import app.modem73.ui.status.StatusScreen
@@ -36,6 +38,7 @@ fun Modem73App(onStartStop: () -> Unit, darkTheme: Boolean? = null) {
     Modem73Theme(darkTheme = darkTheme ?: isSystemInDarkTheme()) {
         val vm: ModemViewModel = viewModel()
         var page by rememberSaveable { mutableIntStateOf(Page.STATUS.ordinal) }
+        var guide by rememberSaveable { mutableStateOf(false) }
         val version = remember { runCatching { "v" + NativeCore.version() }.getOrDefault("v dev") }
         val statusUi by vm.statusUi.collectAsStateWithLifecycle()
         val configUi by vm.configUi.collectAsStateWithLifecycle()
@@ -56,7 +59,11 @@ fun Modem73App(onStartStop: () -> Unit, darkTheme: Boolean? = null) {
                 .background(MaterialTheme.colorScheme.background)
                 .safeDrawingPadding()
         ) {
-            Modem73Header(version = version, transmitting = statusUi.transmitting)
+            Modem73Header(version = version, transmitting = statusUi.transmitting, guideOpen = guide, onGuide = { guide = !guide })
+            if (guide) {
+                GuideScreen(onClose = { guide = false })
+                return@Column
+            }
             PillTabs(tabs = pages.map { it.label }, selected = page, onSelect = { page = it })
             Spacer(Modifier.height(4.dp))
             Box(Modifier.weight(1f)) {

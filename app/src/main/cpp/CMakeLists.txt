@@ -32,6 +32,11 @@ if(GIT_FOUND)
     endif()
 endif()
 message(STATUS "modem73 version: ${MODEM73_VERSION}")
+foreach(_m73_ref HEAD packed-refs)
+    if(EXISTS "${MODEM73_ROOT}/.git/${_m73_ref}")
+        set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${MODEM73_ROOT}/.git/${_m73_ref}")
+    endif()
+endforeach()
 
 # --- the native library -----------------------------------------------------
 add_library(modem73 SHARED
