@@ -254,11 +254,14 @@ bool Modem73Engine::start(const std::string& config_json, const std::string& hom
             tnc.queue_data_ex(data, oper_mode);
             return true;
         };
+        iface.rx_frame_history = [&tnc](size_t limit, uint64_t since_seq) {
+            return tnc.rx_frame_history(limit, since_seq);
+        };
         impl_->ctrl = std::make_unique<ControlPort>(impl_->config.control_port, impl_->config.control_bind_address, iface);
         impl_->ctrl->start();
         ControlPort* ctrl = impl_->ctrl.get();
-        tnc.rx_stats_callback = [ctrl](float snr, float ber_pct, float level_db) {
-            ctrl->notify_rx_frame(snr, ber_pct, level_db);
+        tnc.rx_frame_callback = [ctrl](const RxFrameInfo& info) {
+            ctrl->notify_rx_frame(info);
         };
     }
 

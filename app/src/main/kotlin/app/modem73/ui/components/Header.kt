@@ -1,5 +1,6 @@
 package app.modem73.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import app.modem73.ui.theme.Modem73Colors
 
 @Composable
-fun Modem73Header(version: String, transmitting: Boolean, modifier: Modifier = Modifier) {
+fun Modem73Header(version: String, transmitting: Boolean, guideOpen: Boolean, onGuide: () -> Unit, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -42,6 +43,16 @@ fun Modem73Header(version: String, transmitting: Boolean, modifier: Modifier = M
                 letterSpacing = 2.sp
             )
             Spacer(Modifier.weight(1f))
+            Text(
+                text = if (guideOpen) "CLOSE" else "GUIDE",
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier
+                    .clickable(onClick = onGuide)
+                    .padding(horizontal = 10.dp, vertical = 6.dp)
+            )
+            Spacer(Modifier.width(4.dp))
             Text(
                 text = version,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,

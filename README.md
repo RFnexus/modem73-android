@@ -42,6 +42,8 @@ No flat audio mod or external hardware needed besides an OTG adapter and  cable 
 4. Pick your callsign, mode, and PTT type under CONFIG
 5. Restart and get on the air
 
+Tap GUIDE in the header for a rundown of every setting and how to pick a mode.
+
 The modem listens on KISS port 8001 and control port 8073. Turn on LAN access under CONFIG to reach them from other machines.
 
 ## Building from source
