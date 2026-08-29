@@ -69,7 +69,7 @@ fun Modem73App(onStartStop: () -> Unit, darkTheme: Boolean? = null) {
             Box(Modifier.weight(1f)) {
                 when (current) {
                     Page.STATUS -> StatusScreen(statusUi, waterfall, running, error, micDenied, onStartStop)
-                    Page.CONFIG -> ConfigScreen(configUi, vm)
+                    Page.CONFIG -> ConfigScreen(configUi, vm, onGuide = { guide = true })
                     Page.UTILS -> UtilsScreen(
                         state = utilsUi,
                         enabled = running,
