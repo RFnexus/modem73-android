@@ -25,8 +25,8 @@ android {
         applicationId = "app.modem73"
         minSdk = 28          // Android 9: AAudio is mature, USB host + FGS types are all available
         targetSdk = 37
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 3
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
