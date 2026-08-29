@@ -21,8 +21,24 @@ message(STATUS "modem73 core: ${MODEM73_ROOT}")
 
 # --- version string ---------------------------------------------------------
 find_package(Git QUIET)
-set(MODEM73_VERSION "dev")
+set(MODEM73_VERSION "")
 if(GIT_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} -C "${MODEM73_ROOT}" describe --tags --exact-match
+        OUTPUT_VARIABLE _m73_tag OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET RESULT_VARIABLE _m73_rc)
+    if(_m73_rc EQUAL 0 AND NOT _m73_tag STREQUAL "")
+        string(REGEX REPLACE "^v" "" MODEM73_VERSION "${_m73_tag}")
+    endif()
+endif()
+if(MODEM73_VERSION STREQUAL "" AND EXISTS "${MODEM73_ROOT}/Makefile")
+    file(STRINGS "${MODEM73_ROOT}/Makefile" _m73_base REGEX "^BASE_VERSION[ \t]*:?=")
+    if(_m73_base)
+        string(REGEX REPLACE "^BASE_VERSION[ \t]*:?=[ \t]*" "" MODEM73_VERSION "${_m73_base}")
+        string(STRIP "${MODEM73_VERSION}" MODEM73_VERSION)
+    endif()
+endif()
+if(MODEM73_VERSION STREQUAL "" AND GIT_FOUND)
     execute_process(
         COMMAND ${GIT_EXECUTABLE} -C "${MODEM73_ROOT}" describe --tags --always --dirty
         OUTPUT_VARIABLE _m73_desc OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -31,12 +47,18 @@ if(GIT_FOUND)
         string(REGEX REPLACE "^v" "" MODEM73_VERSION "${_m73_desc}")
     endif()
 endif()
+if(MODEM73_VERSION STREQUAL "")
+    set(MODEM73_VERSION "dev")
+endif()
 message(STATUS "modem73 version: ${MODEM73_VERSION}")
 foreach(_m73_ref HEAD packed-refs)
     if(EXISTS "${MODEM73_ROOT}/.git/${_m73_ref}")
         set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${MODEM73_ROOT}/.git/${_m73_ref}")
     endif()
 endforeach()
+if(EXISTS "${MODEM73_ROOT}/Makefile")
+    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${MODEM73_ROOT}/Makefile")
+endif()
 
 # --- the native library -----------------------------------------------------
 add_library(modem73 SHARED

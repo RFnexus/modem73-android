@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -153,7 +154,7 @@ private fun ActionButton(label: String, icon: ImageVector, color: Color, modifie
 }
 
 @Composable
-fun ConfigScreen(state: ConfigUiState, vm: ModemViewModel, modifier: Modifier = Modifier) {
+fun ConfigScreen(state: ConfigUiState, vm: ModemViewModel, modifier: Modifier = Modifier, onGuide: () -> Unit = {}) {
     var dialog by remember { mutableStateOf<Dialog>(Dialog.None) }
     val cfg = vm.config.value
 
@@ -168,6 +169,14 @@ fun ConfigScreen(state: ConfigUiState, vm: ModemViewModel, modifier: Modifier = 
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
+        ActionButton(
+            "Guide",
+            Icons.Default.Info,
+            MaterialTheme.colorScheme.primary,
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 4.dp)
+        ) { onGuide() }
         ModemSection(state, vm) { dialog = it }
         CsmaSection(state, vm) { dialog = it }
         SectionTitle("FRAGMENTATION")
